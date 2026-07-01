@@ -51,7 +51,6 @@ El desconocimiento del consumo eléctrico en tiempo real limita la eficiencia en
 
 ## 11. Capturas del dashboard
 ![Power Dash v2](./Imagenes/dashboard_local.png)
-![ThingSpeak Dashboard](./Imagenes/dashboard_thingspeak.png)
 
 ## 12. Video de Explicación
 Puedes visualizar el video de expliacion a través del siguiente enlace:
@@ -65,7 +64,7 @@ Puedes visualizar el video de expliacion a través del siguiente enlace:
 
 ## 14. Instrucciones de configuración
 Para replicar el funcionamiento, se deben configurar los siguientes parámetros en el código principal:
-* **Credenciales Wi-Fi (Líneas 10-11):** Cambiar `wifi_ssid` y `wifi_pass` por los datos de la red local con acceso a internet.
+* **Credenciales Wi-Fi (Líneas 12-13 ):** Cambiar `wifi_ssid` y `wifi_pass` por los datos de la red local con acceso a internet.
 * **Credenciales Punto de Acceso (Líneas 12-13):** Personalizar el nombre de la red generada por el ESP32 `ap_ssid` y su contraseña `ap_pass`.
 * **ThingSpeak API (Línea 14):** Reemplazar el valor de `apiKey` por tu clave de escritura ('Write API Key') generada en ThingSpeak.
 
