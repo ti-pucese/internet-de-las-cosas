@@ -45,16 +45,13 @@ El desconocimiento del consumo eléctrico en tiempo real limita la eficiencia en
 
 ## 9. Diagrama de conexión o arquitectura
 ![Esquema de conexión](./Esquemas/esquematico.png)
-*(Asegúrate de subir la imagen del diagrama a la carpeta /Esquemas)*
 
 ## 10. Fotografías del prototipo
 ![Prototipo de hardware](./Imagenes/prototipo.jpg)
-*(Asegúrate de subir la foto física del circuito a la carpeta /Imagenes)*
 
 ## 11. Capturas del dashboard
 ![Power Dash v2](./Imagenes/dashboard_local.png)
 ![ThingSpeak Dashboard](./Imagenes/dashboard_thingspeak.png)
-*(Asegúrate de subir las capturas correspondientes a la carpeta /Imagenes)*
 
 ## 12. Video de Explicación
 Puedes visualizar el video de expliacion a través del siguiente enlace:
