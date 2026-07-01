@@ -80,7 +80,7 @@ https://thingspeak.mathworks.com/channels/3410710
 Desde la sección **My Channels** se creó un nuevo canal denominado **Medidor de Energía**.
 
 <div align="center">
-<img src="Imagenes/newchannel.png" width="600" alt="Nuevo canal">
+<img src="Imagenes/boton_canal.png" width="600" alt="Nuevo canal">
 </div>
 
 ---
@@ -97,7 +97,7 @@ Se habilitaron los seis campos destinados al almacenamiento de las variables el�
 - Factor de Potencia
 
 <div align="center">
-<img src="Imagenes/channel.png" width="600" alt="Configuración del canal">
+<img src="Imagenes/configuracion_canal.png" width="600" alt="Configuración del canal">
 </div>
 
 ---
@@ -107,7 +107,7 @@ Se habilitaron los seis campos destinados al almacenamiento de las variables el�
 Cada gráfico fue configurado asignando el nombre correspondiente a la variable monitoreada.
 
 <div align="center">
-<img src="Imagenes/chart.png" width="600" alt="Configuración de gráficos">
+<img src="Imagenes/configuracion_grafica.png" width="600" alt="Configuración de gráficos">
 </div>
 
 ---
@@ -117,7 +117,7 @@ Cada gráfico fue configurado asignando el nombre correspondiente a la variable 
 Se verificó que el canal recibiera correctamente la información y que las gráficas mostraran la actualización de los datos en tiempo real.
 
 <div align="center">
-<img src="Imagenes/dashboard-final.png" width="700" alt="Dashboard">
+<img src="Imagenes/funcionamiento.png" width="700" alt="Dashboard">
 </div>
 
 ---
@@ -127,7 +127,7 @@ Se verificó que el canal recibiera correctamente la información y que las grá
 Finalmente se habilitó la opción **Share Channel View with Everyone**, permitiendo que el dashboard sea visible públicamente.
 
 <div align="center">
-<img src="Imagenes/share.png" width="600" alt="Compartir canal">
+<img src="Imagenes/acceso_canal.png" width="600" alt="Compartir canal">
 </div>
 
 ---
