@@ -35,7 +35,7 @@ Implementar un canal de monitoreo en ThingSpeak para el almacenamiento y visuali
 ### ThingSpeak
 
 La plataforma fue utilizada para:
-
+https://thingspeak.mathworks.com/
 - Crear el canal de monitoreo.
 - Almacenar información en la nube.
 - Visualizar datos mediante gráficos.
@@ -51,7 +51,7 @@ La plataforma fue utilizada para:
 - Navegador web (Google Chrome, Microsoft Edge o similar).
 - Conexión a Internet.
 - Correo electrónico institucional.
-- MATLAB Online.
+- MATLAB Online https://www.mathworks.com/products/matlab.html.
 
 ---
 
