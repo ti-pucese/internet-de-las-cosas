@@ -418,9 +418,9 @@ Finalmente, se verificó que los datos graficados en MATLAB correspondían a los
 | Código ESP32 | `Codigo/ESP32/medidor_energia_esp32.ino` |
 | Código MATLAB de gráficas de tiempo | `Codigo/MATLAB/graficas_tiempo_variables.m` |
 | Código MATLAB de comparación | `Codigo/MATLAB/comparacion_voltaje_corriente.m` |
-| Fotografías del prototipo | `Imagenes/prototipo.jpg` |
-| Capturas de ThingSpeak | `Imagenes/dashboard_thingspeak.png` |
-| Capturas de MATLAB | `Imagenes/matlab_graficas_tiempo.png` |
+| Fotografías del prototipo | `Imagenes/Prototipo.png` |
+| Capturas de ThingSpeak | `Imagenes/Dashboard ThingSpeak.png` |
+| Capturas de MATLAB | `Imagenes/MATLAB` |
 | Informes técnicos | `Documentacion/` |
 | Video demostrativo | `Videos/enlace_video_demostrativo.md` |
 
