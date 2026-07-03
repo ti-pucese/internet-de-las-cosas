@@ -4,7 +4,7 @@
 channelID = 3410710;
 
 % Clave de lectura del canal
-readAPIKey = 'Z4G6S9WQJAH23QOS';
+readAPIKey = 'TU_READ_API_KEY';
 
 % Lectura de los últimos 100 datos enviados por el ESP32
 [data, timeStamps] = thingSpeakRead(channelID, ...
@@ -22,7 +22,6 @@ factorPotencia = data(:,6);
 
 % Creación de gráficas de tiempo
 figure;
-
 subplot(3,2,1)
 plot(timeStamps, voltaje, '-o')
 title('Voltaje en el tiempo')

@@ -134,85 +134,31 @@ La plataforma IoT utilizada fue **ThingSpeak**, donde se creó un canal denomina
 
 ---
 
-## Estructura del repositorio
-
-```text
-NRC6475_grupo_B_medidor_energia/
-│
-├── README.md
-│
-├── Codigo/
-│   ├── ESP32/
-│   │   └── medidor_energia_esp32.ino
-│   │
-│   └── MATLAB/
-│       ├── graficas_tiempo_variables.m
-│       └── comparacion_voltaje_corriente.m
-│
-├── Esquemas/
-│   ├── arquitectura_iot.png
-│   └── conexion_esp32_pzem.png
-│
-├── Imagenes/
-│   ├── prototipo.jpg
-│   ├── dashboard_local.png
-│   ├── dashboard_thingspeak.png
-│   ├── monitor_serial.png
-│   ├── matlab_graficas_tiempo.png
-│   └── matlab_comparacion_voltaje_corriente.png
-│
-├── Documentacion/
-│   ├── NRC6475_panel_ThingSpeak_grupo_B.pdf
-│   ├── NRC6475_configuracion_ESP32_grupo_B.pdf
-│   ├── NRC6475_visualizacion_MATLAB_grupo_B.pdf
-│   └── NRC6475_analisis_MATLAB_grupo_B.pdf
-│
-├── Presentacion/
-│   └── presentacion_proyecto.pdf
-│
-└── Videos/
-    └── enlace_video_demostrativo.md
-```
-
----
-
-## Diagrama de conexión
-
-![Diagrama de conexión](Esquemas/conexion_esp32_pzem.png)
-
 ---
 
 ## Fotografías del prototipo
 
-![Prototipo del sistema](Imagenes/prototipo.jpg)
+![alt text](Imagenes/Prototipo.png)
 
 ---
 
 ## Capturas del dashboard
 
-### Dashboard local del ESP32
-
-![Dashboard local](Imagenes/dashboard_local.png)
-
 ### Dashboard en ThingSpeak
 
-![Dashboard ThingSpeak](Imagenes/dashboard_thingspeak.png)
+![alt text](Imagenes/Dashboard%20ThingSpeak.png)
 
 ---
 
 ## Capturas del funcionamiento
 
-### Monitor Serial del ESP32
-
-![Monitor Serial](Imagenes/monitor_serial.png)
-
 ### Gráficas de tiempo en MATLAB
 
-![Gráficas de tiempo en MATLAB](Imagenes/matlab_graficas_tiempo.png)
+![alt text](<Imagenes/Gráficas de tiempo.png>)
 
 ### Comparación voltaje vs corriente
 
-![Comparación voltaje vs corriente](Imagenes/matlab_comparacion_voltaje_corriente.png)
+![alt text](<Imagenes/Comparación voltaje vs corriente.png>)
 
 ---
 
