@@ -85,3 +85,4 @@ Todos los códigos y programas desarrollados para el funcionamiento del prototip
 
 ## 15. Referencias
 * Las fuentes bibliográficas y los 10 artículos científicos de soporte (correspondientes al periodo 2022-2026) que sustentan el desarrollo de este proyecto se encuentran organizados y disponibles dentro de la carpeta `/referencias/` del repositorio.
+* [📚 Ver referencias del proyecto](referencias)
