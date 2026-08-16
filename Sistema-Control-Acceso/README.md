@@ -80,10 +80,8 @@ Todos los códigos y programas desarrollados para el funcionamiento del prototip
 * **Paso 12:** Acoplar y posicionar físicamente el servomotor MG996R conectándolo de forma directa al mecanismo de la chapa o pestillo, asegurándolo firmemente mediante la estructura de soporte diseñada para resistir el esfuerzo mecánico al girar.
 * **Paso 13:** Integrar y ensamblar todo el circuito y los mecanismos dentro de la caja protectora definitiva fabricada en MDF y Alucobond, la cual alberga la pantalla LCD y los componentes del sistema.
 * **Paso 14:** Realizar las pruebas finales de validación, comprobando la recepción de datos, la sincronización de estados en la nube y el funcionamiento operativo general del prototipo.
-
-
 ## 14. Video de presentación
-* 🎥 **Enlace de acceso:** [Inserta aquí el enlace público de YouTube o video de demostración]
+[🎥 Ver video de presentación del proyecto en YouTube](https://youtu.be/f8vocLhxorY)
 
 ## 15. Referencias
 * Las fuentes bibliográficas y los 10 artículos científicos de soporte (correspondientes al periodo 2022-2026) que sustentan el desarrollo de este proyecto se encuentran organizados y disponibles dentro de la carpeta `/referencias/` del repositorio.
