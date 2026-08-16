@@ -44,7 +44,7 @@ Diseñar e implementar un prototipo IoT de control de acceso para laboratorios a
 ![Esquema](hardware/Esquematico.png)
 ## 9. Códigos fuente
 Todos los códigos y programas desarrollados para el funcionamiento del prototipo se encuentran almacenados y accesibles en la carpeta del repositorio:
-* [Carpeta de Código Fuente](/codigo/PUERTA_CONTROL)
+* [Ver código fuente](codigo/PUERTA_CONTROL/PUERTA_CONTROL.ino)
 * **Propósito del programa:** Gestionar la lectura del identificador mediante el lector RFID, controlar el posicionamiento PWM del servomotor, administrar el temporizador de autocierre no bloqueante mediante la función `millis()` y mantener la comunicación bidireccional por WebSockets con la plataforma SinricPro.
 * **Parámetros modificables:** Es necesario actualizar en el código fuente las credenciales de la red inalámbrica (`SSID` y contraseña) junto con las claves de autenticación de la plataforma IoT (`APP_KEY`, `APP_SECRET` y `LOCK_ID`).
 
