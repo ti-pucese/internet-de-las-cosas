@@ -83,7 +83,8 @@ Todos los códigos y programas desarrollados para el funcionamiento del prototip
   
 ![Prototipo final](evidencias/Prototipo.jpg)
 ### Resultados de las pruebas
-![Gráfica de resultados](evidencias/Tiempo de Respuesta.png)
+![Gráfica de resultado 1](evidencias/Tiempo_Respuesta.jpg)
+![Gráfica de resultado 2](evidencias/Ciclo_Autocierre.jpg)
 ## 14. Video de presentación
 [🎥 Ver video de presentación del proyecto en YouTube](https://youtu.be/f8vocLhxorY)
 
