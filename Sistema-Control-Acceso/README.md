@@ -82,6 +82,8 @@ Todos los códigos y programas desarrollados para el funcionamiento del prototip
 * **Paso 14:** Realizar las pruebas finales de validación, comprobando la recepción de datos, la sincronización de estados en la nube y el funcionamiento operativo general del prototipo.
   
 ![Prototipo final](evidencias/Prototipo.jpg)
+### Resultados de las pruebas
+![Gráfica de resultados](evidencias/Tiempo de Respuesta.png)
 ## 14. Video de presentación
 [🎥 Ver video de presentación del proyecto en YouTube](https://youtu.be/f8vocLhxorY)
 
