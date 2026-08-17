@@ -65,6 +65,9 @@ Todos los códigos y programas desarrollados para el funcionamiento del prototip
 * **Nombre de la plataforma:** SinricPro.
 * **Función:** Servidor IoT basado en WebSockets encargado de procesar los comandos de control remoto y habilitar la compatibilidad con Amazon Alexa.
 * **Configuración y variables:** Se configuró un dispositivo virtual de tipo cerradura nombrado `Puerta_ESP32`, el cual registra de forma dinámica los estados de eventos correspondientes a `Unlocked` y `Locked`.
+* **Cuenta de configuración:** La plataforma SinricPro fue configurada mediante una cuenta institucional de TI-PUCESE. Las credenciales de acceso no se publican en este repositorio por motivos de seguridad.
+* **Parámetros de autenticación:** Para establecer la comunicación entre el ESP32 y SinricPro se utilizan los parámetros `APP_KEY`, `APP_SECRET` y `LOCK_ID`, los cuales deben configurarse en el código fuente.
+> ⚠️ **Nota:** Las credenciales de la cuenta institucional deben solicitarse al responsable del proyecto
 * 🔗 **Enlace de acceso al Dashboard (Evidencia):** [Ver panel de control en línea](evidencias/sinricpro_dashboard_puerta.png)
 ## 13. Configuración paso a paso
 
