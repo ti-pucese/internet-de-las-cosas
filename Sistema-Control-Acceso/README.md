@@ -67,20 +67,36 @@ Todos los códigos y programas desarrollados para el funcionamiento del prototip
 * **Configuración y variables:** Se configuró un dispositivo virtual de tipo cerradura nombrado `Puerta_ESP32`, el cual registra de forma dinámica los estados de eventos correspondientes a `Unlocked` y `Locked`.
 * 🔗 **Enlace de acceso al Dashboard (Evidencia):** [Ver panel de control en línea](evidencias/sinricpro_dashboard_puerta.png)
 ## 13. Configuración paso a paso
-* **Paso 1:** Preparar el hardware base y posicionar los componentes electrónicos sobre la protoboard.
-* **Paso 2:** Realizar el cableado y las conexiones eléctricas principales, estableciendo un puente de distribución de energía en los rieles de la protoboard para conectar las líneas de alimentación positiva (5V/3.3V) y negativa (GND) desde la fuente externa hacia todos los módulos.
-* **Paso 3:** Conectar el lector RFID RDM6300 al ESP32 interconectando el pin TX del lector al pin RX correspondiente del microcontrolador, además de alimentar el módulo a 5V asegurando compartir la tierra (GND).
-* **Paso 4:** Conectar la pantalla LCD 16x2 I2C utilizando el pin SDA al GPIO 21 y el pin SCL al GPIO 22 del ESP32, con sus respectivas líneas de alimentación VCC (5V) y GND.
-* **Paso 5:** Conectar la señal de control PWM del servomotor MG996R al pin GPIO 18 del ESP32, alimentando su potencia directamente desde la fuente externa y unificando las tierras (GND común).
-* **Paso 6:** Instalar y configurar el entorno de desarrollo Arduino IDE junto con el paquete de soporte para placas ESP32.
-* **Paso 7:** Descargar e instalar las librerías necesarias dentro del entorno de desarrollo (`SinricPro`, `ESP32Servo`, `LiquidCrystal_I2C`).
-* **Paso 8:** Modificar en el código fuente los parámetros de conexión de red Wi-Fi y los identificadores únicos provistos por la plataforma SinricPro.
-* **Paso 9:** Compilar y cargar el programa directamente en el microcontrolador ESP32.
-* **Paso 10:** Validar la correcta ejecución y lectura utilizando la credencial autorizada (tarjeta de proximidad RFID de 125 kHz), comprobando el flujo de datos mediante el Monitor Serial.
-* **Paso 11:** Configurar la Skill correspondiente para lograr la integración con los comandos de voz de Amazon Alexa.
-* **Paso 12:** Acoplar y posicionar físicamente el servomotor MG996R conectándolo de forma directa al mecanismo de la chapa o pestillo, asegurándolo firmemente mediante la estructura de soporte diseñada para resistir el esfuerzo mecánico al girar.
-* **Paso 13:** Integrar y ensamblar todo el circuito y los mecanismos dentro de la caja protectora definitiva fabricada en MDF y Alucobond, la cual alberga la pantalla LCD y los componentes del sistema.
-* **Paso 14:** Realizar las pruebas finales de validación, comprobando la recepción de datos, la sincronización de estados en la nube y el funcionamiento operativo general del prototipo.
+
+> **Nota:** Para consultar los pines, conexiones de alimentación y distribución de los componentes, revisar el [diagrama esquemático](hardware/Esquematico.png).
+
+- **Paso 1:** Preparar el hardware base y posicionar los componentes electrónicos sobre la protoboard.
+
+- **Paso 2:** Realizar el cableado y las conexiones eléctricas principales, estableciendo la distribución de las líneas de alimentación y GND desde las fuentes correspondientes hacia los módulos.
+
+- **Paso 3:** Conectar el lector RFID RDM6300 al ESP32 mediante la interfaz UART, siguiendo las conexiones indicadas en el diagrama esquemático. Alimentar el módulo con 5 V y asegurar una tierra común (GND).
+
+- **Paso 4:** Conectar la pantalla LCD 16x2 I2C al ESP32 utilizando las conexiones SDA, SCL, VCC y GND indicadas en el diagrama esquemático.
+
+- **Paso 5:** Conectar la señal de control PWM del servomotor MG996R al ESP32 y alimentar el servomotor mediante una fuente externa adecuada, manteniendo una tierra común (GND).
+
+- **Paso 6:** Instalar y configurar el entorno de desarrollo Arduino IDE junto con el paquete de soporte para placas ESP32.
+
+- **Paso 7:** Descargar e instalar las librerías necesarias para el funcionamiento del proyecto: `SinricPro`, `ESP32Servo` y `LiquidCrystal_I2C`.
+
+- **Paso 8:** Abrir el código ubicado en [`codigo/PUERTA_CONTROL/PUERTA_CONTROL.ino`](codigo/PUERTA_CONTROL/PUERTA_CONTROL.ino) y modificar los parámetros correspondientes a la red Wi-Fi y a la plataforma SinricPro. Las credenciales reales deben mantenerse privadas y no deben publicarse en el repositorio.
+
+- **Paso 9:** Seleccionar en Arduino IDE la placa ESP32 correspondiente y el puerto de comunicación. Compilar el programa y, si no existen errores, cargarlo en el microcontrolador.
+
+- **Paso 10:** Abrir el Monitor Serial a `115200` baudios y verificar la inicialización del sistema. Posteriormente, acercar una tarjeta RFID autorizada al lector y comprobar que la identificación sea reconocida correctamente.
+
+- **Paso 11:** Configurar la integración de SinricPro con Amazon Alexa mediante la Skill correspondiente y asociar el dispositivo virtual `Puerta_ESP32` para permitir el control mediante comandos de voz.
+
+- **Paso 12:** Acoplar y posicionar físicamente el servomotor MG996R en el mecanismo de la cerradura o pestillo. Ajustar su posición para garantizar que los movimientos de apertura y cierre se realicen correctamente.
+
+- **Paso 13:** Integrar y ensamblar el circuito y los mecanismos dentro de la estructura protectora fabricada en MDF y Alucobond, verificando que los componentes queden firmemente sujetos y que el mecanismo pueda realizar su recorrido sin obstrucciones.
+
+- **Paso 14:** Realizar las pruebas finales de funcionamiento, comprobando la lectura de tarjetas RFID autorizadas, el bloqueo y desbloqueo, el control remoto mediante SinricPro y Amazon Alexa, la actualización del estado en la pantalla LCD y el funcionamiento del autocierre automático.
   
 ![Prototipo final](evidencias/Prototipo.jpg)
 ### Resultados de las pruebas
