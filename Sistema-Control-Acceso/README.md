@@ -38,7 +38,7 @@ Diseñar e implementar un prototipo IoT de control de acceso para laboratorios a
 * **Protoboard:** Protoboard de 400 puntos sin soldadura.
 * **Cables y conexiones:** Cables Jumper de tipo macho-macho, macho-hembra y hembra-hembra.
 * **Credenciales de acceso:** Tarjetas de proximidad RFID de 125 kHz.
-* **Cerradura:**Cerradura  estándar adaptada mecánicamente al servomotor.
+* **Cerradura:** Cerradura estandar adaptada mecanicamente al servomotor.
 * **Estructura física:** Gabinete de soporte y protección fabricado con paneles de MDF y Alucobond para alojar los módulos, la pantalla y el sistema mecánico.
 
 ## 8. Diagrama esquemático
