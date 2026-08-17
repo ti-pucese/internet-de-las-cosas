@@ -101,8 +101,12 @@ Todos los códigos y programas desarrollados para el funcionamiento del prototip
 
 - **Paso 14:** Realizar las pruebas finales de funcionamiento, comprobando la lectura de tarjetas RFID autorizadas, el bloqueo y desbloqueo, el control remoto mediante SinricPro y Amazon Alexa, la actualización del estado en la pantalla LCD y el funcionamiento del autocierre automático.
   
-![Prototipo final](evidencias/Prototipo.jpg)
-### Resultados de las pruebas
+## Resultados de las pruebas
+<p align="center">
+  <img src="evidencias/Prototipo.jpg" alt="Prototipo final" width="600">
+  <img src="evidencias/Tiempo_Respuesta.jpg" alt="Grafica 1" width="600">
+  <img src="evidencias/Ciclo_Autocierre.jpg" alt="Grafica 2 final" width="600">
+</p>
 ![Gráfica de resultado 1](evidencias/Tiempo_Respuesta.jpg)
 ![Gráfica de resultado 2](evidencias/Ciclo_Autocierre.jpg)
 ## 14. Video de presentación
