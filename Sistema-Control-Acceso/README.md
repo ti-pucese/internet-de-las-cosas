@@ -109,6 +109,15 @@ Todos los códigos y programas desarrollados para el funcionamiento del prototip
 </p>
 
 ## 14. Video de presentación
+<p align="center">
+  <a href="https://youtu.be/f8vocLhxorY">
+    <img src="evidencias/miniatura_video.jpg" alt="Video de presentación del proyecto" width="700">
+  </a>
+</p>
+
+<p align="center">
+  🎥 <strong>Ver video de presentación del proyecto en YouTube</strong>
+</p>
 [🎥 Ver video de presentación del proyecto en YouTube](https://youtu.be/f8vocLhxorY)
 
 ## 15. Referencias
