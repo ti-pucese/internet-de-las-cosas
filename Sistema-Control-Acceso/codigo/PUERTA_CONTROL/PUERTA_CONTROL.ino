@@ -6,9 +6,9 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>// https://github.com/johnrickman/LiquidCrystal_I2C.git
 // Credenciales de Sinric Pro
-#define APP_KEY    "304e9eb9-0363-4407-b873-4825812c6809"
-#define APP_SECRET "172b205c-2f8c-4402-804e-92e3e5d0aa48-3dede88e-acee-4a05-8c56-e40397fc6b28"
-#define LOCK_ID    "6a57e7a7969af7ec246b6982"
+#define APP_KEY    ""
+#define APP_SECRET ""
+#define LOCK_ID    ""
 
 // Datos de la red Wi-Fi
 const char* ssid = "";
