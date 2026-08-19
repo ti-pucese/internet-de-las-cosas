@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estación Ambiental </title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root{
+    --blue:#0133a1;
+    --blue-deep:#012172;
+    --blue-bright:#2f5fe0;
+    --ink:#0b1526;
+    --muted:#5b6b83;
+    --line:#d8e0f2;
+    --line-soft:#eaeff9;
+    --white:#ffffff;
+    --panel:#fbfcff;
+    --success:#1c8a5a;
+    --alert:#c23b3b;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--white);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .blueprint-bg{
+    position:fixed;inset:0;z-index:-1;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:34px 34px;
+    background-position:center top;
+    mask-image:radial-gradient(ellipse 90% 60% at 50% 0%, black 40%, transparent 85%);
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .disp{font-family:'Space Grotesk',sans-serif;}
+
+  ::selection{background:var(--blue);color:#fff;}
+
+  nav{
+    position:sticky;top:0;z-index:20;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 32px;
+    background:rgba(255,255,255,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex;align-items:center;gap:11px;}
+  .mark{width:26px;height:26px;flex:none;}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15;}
+  .brand-text .name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;letter-spacing:.01em;}
+  .brand-text .sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;}
+  .nav-right{display:flex;align-items:center;gap:18px;}
+  .pill{
+    display:flex;align-items:center;gap:7px;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;
+    border:1px solid var(--line);border-radius:100px;padding:5px 12px 5px 10px;color:var(--muted);
+  }
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--alert);}
+  .dot.on{background:var(--success);box-shadow:0 0 0 3px rgba(28,138,90,0.15);animation:breathe 2.2s infinite;}
+  @keyframes breathe{0%,100%{opacity:1}50%{opacity:.4}}
+  .clock{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);}
+
+  .burger{
+    position:relative;width:34px;height:34px;flex:none;
+    border:1px solid var(--line);border-radius:8px;background:var(--white);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+    cursor:pointer;transition:border-color .2s;
+  }
+  .burger:hover{border-color:var(--blue);}
+  .burger span{width:15px;height:1.6px;background:var(--ink);transition:transform .25s ease, opacity .2s ease;}
+  .burger.open span:nth-child(1){transform:translateY(5.6px) rotate(45deg);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){transform:translateY(-5.6px) rotate(-45deg);}
+
+  .menu-panel{
+    position:absolute;top:64px;right:32px;z-index:30;
+    background:var(--white);border:1px solid var(--line);border-radius:10px;
+    box-shadow:0 14px 34px rgba(1,51,161,0.14);
+    min-width:210px;padding:8px;
+    opacity:0;transform:translateY(-8px) scale(.98);pointer-events:none;
+    transition:opacity .18s ease, transform .18s ease;
+  }
+  .menu-panel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+  .menu-item{
+    display:flex;align-items:center;gap:10px;width:100%;
+    background:none;border:none;text-align:left;cursor:pointer;
+    padding:11px 12px;border-radius:7px;
+    font-family:'Inter',sans-serif;font-size:13.5px;color:var(--ink);
+    transition:background .15s;
+  }
+  .menu-item:hover{background:var(--line-soft);}
+  .menu-item .dot-ind{width:6px;height:6px;border-radius:50%;background:var(--line);flex:none;}
+  .menu-item.active{color:var(--blue);font-weight:600;}
+  .menu-item.active .dot-ind{background:var(--blue);}
+  .menu-item .tag{
+    margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);
+    letter-spacing:.08em;text-transform:uppercase;
+  }
+
+  .view{display:none;opacity:0;transform:translateY(10px);transition:opacity .35s ease, transform .35s ease;}
+  .view.active{display:block;}
+  .view.in{opacity:1;transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){ .view{transition:none;transform:none;} }
+
+  section{padding:64px 32px 20px;max-width:1180px;margin:0 auto;}
+  .eyebrow{
+    display:flex;align-items:center;gap:9px;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;
+    color:var(--blue);text-transform:uppercase;margin-bottom:10px;
+  }
+  .eyebrow::before{content:"";width:16px;height:1px;background:var(--blue);}
+  h2{
+    font-family:'Space Grotesk',sans-serif;font-weight:600;
+    font-size:clamp(24px,3.4vw,34px);margin:0 0 6px;letter-spacing:-.01em;
+  }
+  .section-sub{color:var(--muted);font-size:14.5px;margin:0 0 34px;max-width:560px;}
+
+  .strip-frame{
+    position:relative;border:1px solid var(--line);border-radius:10px;
+    background:
+      linear-gradient(90deg, var(--panel) 1px, transparent 1px) 0 0/16px 100%,
+      var(--panel);
+    padding:18px 20px 8px;margin-bottom:28px;overflow:hidden;
+  }
+  .strip-frame .corner{position:absolute;width:9px;height:9px;border:1.5px solid var(--blue);opacity:.55;}
+  .corner.tl{top:8px;left:8px;border-right:none;border-bottom:none;}
+  .corner.tr{top:8px;right:8px;border-left:none;border-bottom:none;}
+  .corner.bl{bottom:8px;left:8px;border-right:none;border-top:none;}
+  .corner.br{bottom:8px;right:8px;border-left:none;border-top:none;}
+  .strip-label{
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--muted);
+    display:flex;justify-content:space-between;margin-bottom:4px;text-transform:uppercase;
+  }
+  #waveform{width:100%;height:96px;display:block;}
+
+  .tapes{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-bottom:26px;}
+  .tape-card{
+    border:1px solid var(--line);border-radius:10px;background:var(--panel);
+    padding:18px 18px 16px;
+    opacity:0;transform:translateY(14px);
+    animation:cardIn .55s ease forwards;
+    transition:border-color .2s, box-shadow .2s, transform .2s;
+  }
+  .tape-card:hover{border-color:var(--blue);box-shadow:0 6px 20px rgba(1,51,161,0.08);transform:translateY(-2px);}
+  @keyframes cardIn{to{opacity:1;transform:translateY(0);}}
+  .tape-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;}
+  .tape-top .label{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;}
+  .tape-top .reading{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:26px;color:var(--ink);}
+  .tape-top .reading .unit{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);font-weight:400;margin-left:2px;}
+  .tape-track{position:relative;height:5px;border-radius:3px;background:var(--line);margin:6px 0 8px;}
+  .tape-fill{position:absolute;left:0;top:0;height:100%;border-radius:3px;background:var(--blue);transition:width .5s cubic-bezier(.4,0,.2,1);}
+  .tape-marker{
+    position:absolute;top:-5px;width:2px;height:15px;background:var(--blue-deep);
+    transition:left .5s cubic-bezier(.4,0,.2,1);
+  }
+  .tape-range{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);}
+
+  .log-strip{
+    border:1px dashed var(--line);border-radius:10px;padding:12px 18px;
+    display:flex;gap:0;overflow-x:auto;background:var(--white);
+  }
+  .log-strip .entry{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);
+    padding:0 16px;border-right:1px solid var(--line-soft);white-space:nowrap;
+  }
+  .log-strip .entry:first-child{color:var(--blue);}
+  .log-strip .entry:last-child{border-right:none;}
+
+  .hist-panel{border:1px solid var(--line);border-radius:12px;padding:26px 26px 20px;background:var(--panel);}
+  .hist-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:18px;}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;}
+  .tab{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.03em;
+    background:var(--white);border:1px solid var(--line);color:var(--muted);
+    padding:7px 13px;border-radius:6px;cursor:pointer;transition:all .15s;
+  }
+  .tab:hover{border-color:var(--blue);color:var(--blue);}
+  .tab.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+  .chart-wrap{height:300px;position:relative;}
+  .empty-note{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);margin-top:12px;}
+
+  footer{
+    text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10.5px;
+    color:var(--muted);letter-spacing:.08em;padding:46px 20px 40px;text-transform:uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="blueprint-bg"></div>
+
+<nav>
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 26 26" fill="none">
+      <circle cx="13" cy="13" r="11.5" stroke="#0133a1" stroke-width="1.4"/>
+      <line x1="13" y1="1.5" x2="13" y2="6" stroke="#0133a1" stroke-width="1.4"/>
+      <line x1="13" y1="20" x2="13" y2="24.5" stroke="#0133a1" stroke-width="1.4"/>
+      <line x1="1.5" y1="13" x2="6" y2="13" stroke="#0133a1" stroke-width="1.4"/>
+      <line x1="20" y1="13" x2="24.5" y2="13" stroke="#0133a1" stroke-width="1.4"/>
+      <circle cx="13" cy="13" r="3" fill="#0133a1"/>
+    </svg>
+    <div class="brand-text">
+      <span class="name">Estación Ambiental</span>
+      <span class="sub">Sistema de telemetría · ESP32</span>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="pill"><span class="dot" id="led"></span><span id="statusText">Conectando</span></div>
+    <div class="clock" id="clock">—</div>
+    <button class="burger" id="burgerBtn" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  </div>
+
+  <div class="menu-panel" id="menuPanel">
+    <button class="menu-item active" data-view="live"><span class="dot-ind"></span>En vivo<span class="tag">Live</span></button>
+    <button class="menu-item" data-view="historial"><span class="dot-ind"></span>Historial<span class="tag">Log</span></button>
+  </div>
+</nav>
+
+<section id="live" class="view active in">
+  <div class="eyebrow">Monitoreo en vivo</div>
+  <h2>Lecturas en tiempo real</h2>
+  <p class="section-sub">Datos transmitidos directamente desde el nodo ESP32 vía Firebase Realtime Database.</p>
+
+  <div class="strip-frame">
+    <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+    <div class="strip-label"><span>Traza — Temperatura</span><span id="stripNow">—</span></div>
+    <canvas id="waveform"></canvas>
+  </div>
+
+  <div class="tapes" id="tapes"></div>
+
+  <div class="log-strip" id="logStrip"></div>
+</section>
+
+<section id="historial" class="view">
+  <div class="eyebrow">Historial</div>
+  <h2>Registro por tiempo</h2>
+  <p class="section-sub">Comportamiento de cada variable a lo largo del tiempo, con vista por rango y sensor.</p>
+
+  <div class="hist-panel">
+    <div class="hist-head">
+      <div class="tabs" id="varTabs">
+        <button class="tab active" data-var="temperatura">Temperatura</button>
+        <button class="tab" data-var="humedad">Humedad</button>
+        <button class="tab" data-var="viento">Viento</button>
+        <button class="tab" data-var="presion">Presión</button>
+        <button class="tab" data-var="altitud">Altitud</button>
+      </div>
+      <div class="tabs" id="rangeTabs">
+        <button class="tab active" data-range="600">10 min</button>
+        <button class="tab" data-range="3600">1 h</button>
+        <button class="tab" data-range="21600">6 h</button>
+        <button class="tab" data-range="86400">24 h</button>
+        <input type="date" id="datePicker" class="tab" style="padding: 5px 10px; cursor: text;">
+        <button id="btnSearchDate" class="tab">Buscar Día</button>
+      </div>
+    </div>
+    <div class="chart-wrap"><canvas id="chart"></canvas></div>
+    <div class="empty-note" id="emptyNote" style="display:none;">
+      No se encontró "estacion/historial" en Firebase — mostrando el registro acumulado de esta sesión.
+    </div>
+  </div>
+</section>
+
+<footer>Estación Ambiental — estacion/actual · estacion/historial — Firebase Realtime Database</footer>
+
+<script>
+/* Configuracion Firebase */
+const firebaseConfig = {
+  apiKey: "TU_API_KEY_AQUI",
+  databaseURL: "https://tu-proyecto.firebaseio.com",
+  projectId: "tu-proyecto-id",
+  authDomain: "tu-proyecto.firebaseapp.com"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+/* Variables Globales */
+const VARS = {
+  temperatura: { label:"Temperatura", unit:"°C", min:-10, max:45, decimals:1 },
+  humedad:     { label:"Humedad",     unit:"%",  min:0,   max:100, decimals:1 },
+  viento:      { label:"Viento",      unit:"km/h", min:0, max:60, decimals:1 },
+  presion:     { label:"Presión",     unit:"hPa", min:950, max:1050, decimals:1 },
+  altitud:     { label:"Altitud",     unit:"m",  min:0,  max:200, decimals:1 }
+};
+const displayed = { temperatura:0, humedad:0, viento:0, presion:0, altitud:0 };
+
+let currentVar = 'temperatura';
+let currentRange = 600;
+let isCustomSearch = false; 
+let customSearchData = [];
+let customSearchDateLabel = "";
+
+/* Tarjetas de Medicion */
+const tapesEl = document.getElementById('tapes');
+Object.entries(VARS).forEach(([key,cfg],i)=>{
+  const card = document.createElement('div');
+  card.className = 'tape-card';
+  card.style.animationDelay = (i*0.08)+'s';
+  card.innerHTML = `
+    <div class="tape-top">
+      <span class="label">${cfg.label}</span>
+      <span class="reading" id="reading-${key}">—<span class="unit">${cfg.unit}</span></span>
+    </div>
+    <div class="tape-track">
+      <div class="tape-fill" id="fill-${key}" style="width:0%"></div>
+      <div class="tape-marker" id="marker-${key}" style="left:0%"></div>
+    </div>
+    <div class="tape-range"><span>${cfg.min}</span><span>${cfg.max} ${cfg.unit}</span></div>
+  `;
+  tapesEl.appendChild(card);
+});
+
+function animateNumber(key, from, to, decimals){
+  const el = document.getElementById(`reading-${key}`);
+  const unit = VARS[key].unit;
+  const start = performance.now();
+  const dur = 500;
+  function step(now){
+    const p = Math.min(1, (now-start)/dur);
+    const eased = 1 - Math.pow(1-p, 3);
+    const val = from + (to-from)*eased;
+    el.innerHTML = `${val.toFixed(decimals)}<span class="unit">${unit}</span>`;
+    if(p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function updateTape(key, value){
+  const cfg = VARS[key];
+  animateNumber(key, displayed[key] || cfg.min, value, cfg.decimals);
+  displayed[key] = value;
+  const pct = Math.max(0, Math.min(100, ((value - cfg.min) / (cfg.max - cfg.min)) * 100));
+  document.getElementById(`fill-${key}`).style.width = pct + '%';
+  document.getElementById(`marker-${key}`).style.left = pct + '%';
+}
+
+/* Conexion y Reloj */
+const ledEl = document.getElementById('led');
+const statusText = document.getElementById('statusText');
+db.ref('.info/connected').on('value', snap=>{
+  const connected = snap.val() === true;
+  ledEl.classList.toggle('on', connected);
+  statusText.textContent = connected ? 'En línea' : 'Sin conexión';
+});
+
+function tickClock(){
+  document.getElementById('clock').textContent = new Date().toLocaleString('es-ES',{
+    hour12:false, day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit'
+  });
+}
+tickClock(); 
+setInterval(tickClock,1000);
+
+/* Log Historial Reciente */
+const logStripEl = document.getElementById('logStrip');
+function pushLogEntry(data, ts){
+  const time = new Date(ts).toLocaleTimeString('es-ES',{hour12:false});
+  const entry = document.createElement('div');
+  entry.className = 'entry';
+  entry.textContent = `${time} · T ${data.temperatura?.toFixed(1) ?? '--'}° · H ${data.humedad?.toFixed(1) ?? '--'}% · V ${data.viento?.toFixed(1) ?? '--'} · P ${data.presion?.toFixed(1) ?? '--'}`;
+  logStripEl.prepend(entry);
+  while(logStripEl.children.length > 24) logStripEl.removeChild(logStripEl.lastChild);
+}
+
+/* Grafica de Onda */
+const wfCanvas = document.getElementById('waveform');
+const wfCtx = wfCanvas.getContext('2d');
+let wfPoints = [];
+
+function resizeWaveform(){
+  const rect = wfCanvas.getBoundingClientRect();
+  wfCanvas.width = rect.width * devicePixelRatio;
+  wfCanvas.height = rect.height * devicePixelRatio;
+  wfCtx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+}
+window.addEventListener('resize', resizeWaveform);
+resizeWaveform();
+
+function drawWaveform(){
+  const w = wfCanvas.getBoundingClientRect().width;
+  const h = wfCanvas.getBoundingClientRect().height;
+  wfCtx.clearRect(0,0,w,h);
+  if(wfPoints.length < 2) return;
+  const cfg = VARS.temperatura;
+  const maxN = 120;
+  const pts = wfPoints.slice(-maxN);
+  const stepX = w / (maxN-1);
+  
+  wfCtx.beginPath();
+  pts.forEach((v,i)=>{
+    const x = w - (pts.length-1-i)*stepX;
+    const pct = Math.max(0,Math.min(1,(v-cfg.min)/(cfg.max-cfg.min)));
+    const y = h - pct*h*0.82 - h*0.09;
+    if(i===0) wfCtx.moveTo(x,y); else wfCtx.lineTo(x,y);
+  });
+  
+  wfCtx.strokeStyle = '#0133a1';
+  wfCtx.lineWidth = 1.8;
+  wfCtx.lineJoin='round';
+  wfCtx.stroke();
+  
+  wfCtx.lineTo(w, h); 
+  wfCtx.lineTo(w-(pts.length-1)*stepX, h); 
+  wfCtx.closePath();
+  const grad = wfCtx.createLinearGradient(0,0,0,h);
+  grad.addColorStop(0,'rgba(1,51,161,0.14)');
+  grad.addColorStop(1,'rgba(1,51,161,0)');
+  wfCtx.fillStyle = grad;
+  wfCtx.fill();
+}
+
+/* Recepcion de Datos en Vivo */
+const sessionBuffer = [];
+db.ref('estacion/actual').on('value', snap=>{
+  const data = snap.val();
+  if(!data) return;
+  
+  Object.keys(VARS).forEach(key=>{
+    if(typeof data[key] === 'number') updateTape(key, data[key]);
+  });
+  
+  if(typeof data.temperatura === 'number'){
+    wfPoints.push(data.temperatura);
+    if(wfPoints.length > 200) wfPoints.shift();
+    drawWaveform();
+    document.getElementById('stripNow').textContent = data.temperatura.toFixed(1) + ' °C';
+  }
+  
+  const ts = Date.now();
+  pushLogEntry(data, ts);
+  sessionBuffer.push({ ...data, timestamp: ts });
+  if(sessionBuffer.length > 2000) sessionBuffer.shift();
+  refreshChart();
+});
+
+/* Gestion del Historial de Firebase */
+let historialCache = null;
+db.ref('estacion/historial').limitToLast(2000).once('value').then(snap=>{
+  if(snap.exists()){
+    const arr = [];
+    snap.forEach(child=>{ arr.push(child.val()); });
+    historialCache = arr;
+  } else {
+    document.getElementById('emptyNote').style.display = 'block';
+  }
+  refreshChart();
+});
+
+db.ref('estacion/historial').limitToLast(1).on('child_added', snap=>{
+  if(!historialCache) historialCache = [];
+  const v = snap.val();
+  if(historialCache.length === 0 || historialCache[historialCache.length-1].timestamp !== v.timestamp){
+    historialCache.push(v);
+    if(historialCache.length > 3000) historialCache.shift();
+    refreshChart();
+  }
+});
+
+/* Configuracion Chart.js */
+const ctx = document.getElementById('chart').getContext('2d');
+const chart = new Chart(ctx, {
+  type:'line',
+  data:{ labels:[], datasets:[{
+    label:'', data:[], borderColor:'#0133a1', backgroundColor:'rgba(1,51,161,0.08)',
+    borderWidth:2, pointRadius:0, tension:0.25, fill:true
+  }]},
+  options:{
+    responsive:true, maintainAspectRatio:false, animation:{duration:300},
+    scales:{
+      x:{ ticks:{ color:'#5b6b83', font:{family:'IBM Plex Mono', size:10}, maxTicksLimit:8 }, grid:{ color:'#eaeff9' } },
+      y:{ ticks:{ color:'#5b6b83', font:{family:'IBM Plex Mono', size:10} }, grid:{ color:'#eaeff9' } }
+    },
+    plugins:{ legend:{ display:false } }
+  }
+});
+
+function refreshChart(){
+  const cfg = VARS[currentVar];
+  let filtered = [];
+
+  if (isCustomSearch) {
+    filtered = customSearchData.filter(d => typeof d[currentVar] === 'number');
+    chart.data.labels = filtered.map(d => new Date(d.timestamp).toLocaleTimeString('es-ES',{hour12:false}));
+    chart.data.datasets[0].data = filtered.map(d => d[currentVar]);
+    chart.data.datasets[0].label = `${cfg.label} (${cfg.unit}) - ${customSearchDateLabel}`;
+  } else {
+    const source = historialCache && historialCache.length ? historialCache : sessionBuffer;
+    const now = Date.now();
+    filtered = source.filter(d => d.timestamp && (now - d.timestamp) <= currentRange*1000 && typeof d[currentVar] === 'number');
+    chart.data.labels = filtered.map(d => new Date(d.timestamp).toLocaleTimeString('es-ES',{hour12:false}));
+    chart.data.datasets[0].data = filtered.map(d => d[currentVar]);
+    chart.data.datasets[0].label = `${cfg.label} (${cfg.unit})`;
+  }
+  
+  chart.update();
+}
+
+/* Botones de Variables y Rango de Tiempo */
+document.getElementById('varTabs').addEventListener('click', e=>{
+  if(!e.target.matches('.tab')) return;
+  document.querySelectorAll('#varTabs .tab').forEach(t=>t.classList.remove('active'));
+  e.target.classList.add('active');
+  currentVar = e.target.dataset.var;
+  refreshChart();
+});
+
+document.getElementById('rangeTabs').addEventListener('click', e=>{
+  if(!e.target.matches('.tab')) return;
+  if(e.target.id === 'datePicker') return; 
+  if(e.target.id === 'btnSearchDate') return; 
+
+  document.querySelectorAll('#rangeTabs .tab').forEach(t=>t.classList.remove('active'));
+  e.target.classList.add('active');
+  
+  isCustomSearch = false; 
+  currentRange = parseInt(e.target.dataset.range, 10);
+  refreshChart();
+});
+
+/* Busqueda por Fecha Especifica */
+document.getElementById('btnSearchDate').addEventListener('click', () => {
+  const dateVal = document.getElementById('datePicker').value;
+  if (!dateVal) {
+    alert("Por favor, selecciona una fecha primero.");
+    return;
+  }
+
+  document.querySelectorAll('#rangeTabs .tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('btnSearchDate').classList.add('active');
+
+  const selectedDate = new Date(dateVal + 'T00:00:00'); 
+  const startMs = selectedDate.getTime();
+  const endDate = new Date(dateVal + 'T23:59:59'); 
+  const endMs = endDate.getTime();
+
+  db.ref('estacion/historial')
+    .orderByChild('timestamp')
+    .startAt(startMs)
+    .endAt(endMs)
+    .once('value')
+    .then(snap => {
+      const arr = [];
+      snap.forEach(child => { arr.push(child.val()); });
+      
+      if(arr.length === 0){
+        alert("No hay datos registrados para esta fecha.");
+        return;
+      }
+
+      customSearchData = arr;
+      isCustomSearch = true;
+      customSearchDateLabel = dateVal;
+      
+      refreshChart(); 
+    })
+    .catch(error => console.error("Error buscando historial: ", error));
+});
+
+/* Menu y Control de Vistas */
+const burgerBtn = document.getElementById('burgerBtn');
+const menuPanel = document.getElementById('menuPanel');
+
+function toggleMenu(force){
+  const open = force !== undefined ? force : !menuPanel.classList.contains('open');
+  menuPanel.classList.toggle('open', open);
+  burgerBtn.classList.toggle('open', open);
+}
+
+burgerBtn.addEventListener('click', e=>{ e.stopPropagation(); toggleMenu(); });
+document.addEventListener('click', e=>{
+  if(menuPanel.classList.contains('open') && !menuPanel.contains(e.target)) toggleMenu(false);
+});
+
+function showView(view){
+  document.querySelectorAll('.view').forEach(sec=>{
+    if(sec.id === view){
+      sec.classList.add('active');
+      requestAnimationFrame(()=> requestAnimationFrame(()=> sec.classList.add('in')));
+    } else {
+      sec.classList.remove('active','in');
+    }
+  });
+  
+  document.querySelectorAll('.menu-item').forEach(item=>{
+    item.classList.toggle('active', item.dataset.view === view);
+  });
+  
+  if(view === 'historial'){
+    requestAnimationFrame(()=>{ chart.resize(); refreshChart(); });
+  }
+  if(view === 'live'){
+    requestAnimationFrame(()=>{ resizeWaveform(); drawWaveform(); });
+  }
+}
+
+menuPanel.addEventListener('click', e=>{
+  const item = e.target.closest('.menu-item');
+  if(!item) return;
+  showView(item.dataset.view);
+  toggleMenu(false);
+});
+</script>
+</body>
+</html>
